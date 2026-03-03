@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GaritaApp - Inicio de Sesión</title>
+    <title>INICIO DE SESIÓN - Control Residencial</title>
     <!-- Integración de Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -15,16 +15,22 @@
     <!-- CSS Nativo con diseño Premium equivalente a CustomTkinter Dark Mode -->
     <style>
         :root {
-            --primary-color: #ffffff;
-            --primary-accent: #6366f1;
-            --bg-deep: #1e1b4b;
-            --bg-accent: #2e1065;
-            --text-main: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.7);
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.1);
-            --input-bg: rgba(255, 255, 255, 0.05);
-            --input-border: rgba(255, 255, 255, 0.1);
+            --primary-color: #3b82f6;
+            /* Blue 500 */
+            --primary-hover: #2563eb;
+            /* Blue 600 */
+            --bg-color: #242424;
+            /*CTk dark mode bg*/
+            --panel-bg: #2b2b2b;
+            /*CTk elevated bg*/
+            --text-main: #f8fafc;
+            /* Slate 50 */
+            --text-muted: #94a3b8;
+            /* Slate 400 */
+            --input-bg: #343638;
+            /* CTk input bg */
+            --input-border: #565b5e;
+            /* CTk input border */
         }
 
         * {
@@ -34,13 +40,8 @@
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-deep);
-            background-image: repeating-linear-gradient(-45deg,
-                    #1e1b4b,
-                    #1e1b4b 60px,
-                    #25225d 60px,
-                    #25225d 120px);
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -50,24 +51,20 @@
         }
 
         .login-container {
-            background: var(--glass-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border);
-            border-radius: 2rem;
-            padding: 3.5rem 2.5rem;
+            background-color: var(--panel-bg);
+            border-radius: 12px;
+            padding: 3rem 2.5rem;
             width: 100%;
-            max-width: 420px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
             text-align: center;
         }
 
         .title {
-            font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 2.5rem;
-            letter-spacing: -0.02em;
-            color: white;
+            font-size: 24px;
+            font-weight: 500;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
         }
 
         .form-group {

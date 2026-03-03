@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GaritaApp - Vista de Seguridad</title>
+    <title>Acceso Garita - Control Residencial</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -12,15 +12,14 @@
     <style>
         /* ... (estilos existentes) ... */
         :root {
-            --primary-color: #ffffff;
-            --primary-accent: #6366f1;
-            --bg-deep: #1e1b4b;
-            --bg-accent: #2e1065;
-            --text-main: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.7);
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary-color: #3b82f6;
             --success-color: #10b981;
+            --danger-color: #ef4444;
+            --bg-color: #121212;
+            --panel-bg: #1e1e1e;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #333333;
             --highlight-color: #fbbf24;
         }
 
@@ -32,12 +31,7 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-deep);
-            background-image: repeating-linear-gradient(-45deg,
-                    #1e1b4b,
-                    #1e1b4b 60px,
-                    #25225d 60px,
-                    #25225d 120px);
+            background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
             padding: 2rem;
@@ -647,7 +641,7 @@
                         <p style="font-size: 1.1rem; color: #94a3b8; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;">
                             El sistema de control para <strong>${config_db.nombre.toUpperCase()}</strong> ha sido desactivado administrativamente.
                             <br><br>
-                            Favor comunicarse con la administración o con <strong>GaritaApp Support</strong> para coordinar la reactivación del servicio.
+                            Favor comunicarse con la administración o con <strong>SISDEL INTERNACIONAL</strong> para coordinar la reactivación del servicio.
                         </p>
                         <button onclick="window.location.href='index.html'" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 1.25rem; border-radius: 1.25rem; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.5); font-family: 'Outfit', sans-serif;">
                             Regresar a Inicio

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GaritaApp - Escáner de Acceso</title>
+    <title>Escáner de Placas - Control Residencial</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -16,17 +16,15 @@
 
     <style>
         :root {
-            --primary-color: #ffffff;
-            --primary-accent: #6366f1;
-            --bg-deep: #1e1b4b;
-            --bg-accent: #2e1065;
-            --text-main: #ffffff;
-            --text-muted: rgba(255, 255, 255, 0.7);
-            --glass-bg: rgba(255, 255, 255, 0.04);
-            --glass-border: rgba(255, 255, 255, 0.1);
+            --primary-color: #3b82f6;
             --success-color: #10b981;
             --danger-color: #ef4444;
-            --warning-color: #fbbf24;
+            --warning-color: #f59e0b;
+            --bg-color: #0a0a0f;
+            --panel-bg: #141420;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border-color: #2a2a3a;
         }
 
         * {
@@ -37,12 +35,7 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-deep);
-            background-image: repeating-linear-gradient(-45deg,
-                    #1e1b4b,
-                    #1e1b4b 60px,
-                    #25225d 60px,
-                    #25225d 120px);
+            background: linear-gradient(135deg, var(--bg-color) 0%, #0f1729 100%);
             color: var(--text-main);
             min-height: 100vh;
             padding: 1rem;
@@ -56,12 +49,11 @@
         /* HEADER */
         .header {
             text-align: center;
-            margin-bottom: 2rem;
-            padding: 2rem;
-            background: var(--glass-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 1.5rem;
-            border: 1px solid var(--glass-border);
+            margin-bottom: 1.5rem;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+            border-radius: 1rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
         .header-icon {
@@ -744,7 +736,7 @@
                             <p style="font-size: 1.1rem; color: #94a3b8; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;">
                                 El módulo de escaneo OCR para <strong>${config_db.nombre.toUpperCase()}</strong> no está disponible actualmente.
                                 <br><br>
-                                Por favor, contacte al soporte de <strong>GaritaApp Support</strong> para restaurar las funciones de reconocimiento de placas.
+                                Por favor, contacte al soporte de <strong>SISDEL INTERNACIONAL</strong> para restaurar las funciones de reconocimiento de placas.
                             </p>
                             <button onclick="window.history.back()" style="width: 100%; background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.1); padding: 1.25rem; border-radius: 1.25rem; font-weight: 600; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; font-family: 'Outfit', sans-serif;">
                                 ← Regresar

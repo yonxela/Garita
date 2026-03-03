@@ -4,21 +4,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso Garita - DELCO II</title>
+    <title>GaritaApp - Vista de Seguridad</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <style>
+        /* ... (estilos existentes) ... */
         :root {
-            --primary-color: #3b82f6;
+            --primary-color: #ffffff;
+            --primary-accent: #6366f1;
+            --bg-deep: #1e1b4b;
+            --bg-accent: #2e1065;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --success-color: #10b981;
-            --danger-color: #ef4444;
-            --bg-color: #121212;
-            --panel-bg: #1e1e1e;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #333333;
             --highlight-color: #fbbf24;
         }
 
@@ -30,7 +32,12 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-deep);
+            background-image: repeating-linear-gradient(-45deg,
+                    #1e1b4b,
+                    #1e1b4b 60px,
+                    #25225d 60px,
+                    #25225d 120px);
             color: var(--text-main);
             min-height: 100vh;
             padding: 2rem;
@@ -217,6 +224,80 @@
             color: white;
         }
 
+        /* MODAL MARBETE */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .marbete-modal-content {
+            width: 100%;
+            max-width: 380px;
+            animation: slideIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(30px) scale(0.9);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .btn-close-modal {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: 700;
+        }
+
+        .badge-residente {
+            background: rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .badge-visitante {
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.5);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+
+        .btn-active {
+            background: rgba(59, 130, 246, 0.2) !important;
+            color: white !important;
+            border-color: var(--primary-color) !important;
+        }
+
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -236,7 +317,7 @@
     <div class="container">
         <div class="header">
             <div class="title-group">
-                <h1 class="header-title" id="headerCondoName">DELCO II</h1>
+                <h1 class="header-title" id="headerCondoName">MI CONDOMINIO</h1>
                 <span class="header-subtitle">VISTA DE GARITA (SEGURIDAD)</span>
             </div>
             <div class="clock-container">
@@ -249,17 +330,31 @@
             <div class="status-bar">
                 <div class="status-text">
                     <span class="status-dot"></span>
-                    <span>Mostrando visitas autorizadas del <strong>día actual</strong>. Se actualiza
-                        automáticamente.</span>
+                    <span id="statusDescription">LISTADO GENERAL DE VECINOS Y VISITANTES QUE HAN INGRESADO AL
+                        CONDOMINIO</span>
                 </div>
-                <button class="btn-refresh" onclick="cargarVisitasRecientes()">
-                    ↻ Actualizar
-                </button>
+                <div style="display: flex; gap: 8px;">
+                    <button id="btnVistaVisitas" class="btn-refresh btn-active" onclick="cambiarVista('visitas')">
+                        📅 Visitas Hoy
+                    </button>
+                    <button id="btnVistaBitacora" class="btn-refresh" onclick="cambiarVista('bitacora')">
+                        📋 Bitácora General
+                    </button>
+                    <div style="width: 1px; background: var(--border-color); margin: 0 4px;"></div>
+                    <button class="btn-refresh" onclick="window.location.href='escaneo_placas.html?mode=placas'"
+                        style="background: rgba(59,130,246,0.15); color: #60a5fa; border-color: rgba(59,130,246,0.3);">
+                        🚗 ESCANEAR PLACA
+                    </button>
+                    <button class="btn-refresh" onclick="window.location.href='escaneo_placas.html?mode=qr'"
+                        style="background: rgba(139,92,246,0.15); color: #a78bfa; border-color: rgba(139,92,246,0.3);">
+                        📱 ESCANEAR MARBETE
+                    </button>
+                </div>
             </div>
 
             <div class="table-responsive">
                 <table id="tablaVisitas">
-                    <thead>
+                    <thead id="tablaHead">
                         <tr>
                             <th>HORA REGISTRO</th>
                             <th>VISITANTE</th>
@@ -277,6 +372,14 @@
         </div>
     </div>
 
+    <!-- MODAL PARA MOSTRAR MARBETE DETECTADO -->
+    <div id="modalMarbete" class="modal-overlay">
+        <div class="marbete-modal-content">
+            <div id="marbeteContainer"></div>
+            <button class="btn-close-modal" onclick="cerrarModalMarbete()">CERRAR VISTA</button>
+        </div>
+    </div>
+
     <script>
         // Función para mantener actualizado el reloj
         function actualizarReloj() {
@@ -288,14 +391,53 @@
             document.getElementById('clockDate').innerText = ahora.toLocaleDateString('es-ES', dateOptions);
         }
 
-        // Cargar y filtrar visitas del día actual
+        let vistaActual = 'visitas';
+
+        function cambiarVista(nuevaVista) {
+            vistaActual = nuevaVista;
+            document.getElementById('btnVistaVisitas').classList.toggle('btn-active', vistaActual === 'visitas');
+            document.getElementById('btnVistaBitacora').classList.toggle('btn-active', vistaActual === 'bitacora');
+            actualizarTabla();
+        }
+
+        function actualizarTabla() {
+            if (vistaActual === 'visitas') {
+                document.getElementById('statusDescription').innerText = "VISITAS PROGRAMADAS PENDIENTES DE INGRESO";
+                document.getElementById('tablaHead').innerHTML = `
+                    <tr>
+                        <th>HORA REGISTRO</th>
+                        <th>VISITANTE</th>
+                        <th>NO. IDENTIFICACIÓN</th>
+                        <th>PLACA(S)</th>
+                        <th>NO. PERSONAS</th>
+                        <th>AUTORIZA (VECINO)</th>
+                        <th>ACCIONES</th>
+                    </tr>
+                `;
+                cargarVisitasRecientes();
+            } else {
+                document.getElementById('statusDescription').innerText = "LISTADO GENERAL DE VECINOS Y VISITANTES QUE HAN INGRESADO AL CONDOMINIO";
+                document.getElementById('tablaHead').innerHTML = `
+                    <tr>
+                        <th>HORA INGRESO</th>
+                        <th>NOMBRE</th>
+                        <th>TIPO</th>
+                        <th>IDENTIFICACIÓN / PLACA</th>
+                        <th>UBICACIÓN / LOTE</th>
+                        <th>AUTORIZADO POR</th>
+                    </tr>
+                `;
+                cargarBitacoraGeneral();
+            }
+        }
+
         function cargarVisitasRecientes() {
             const tbody = document.getElementById('tablaBody');
             tbody.innerHTML = '';
 
             const visitas_db = JSON.parse(localStorage.getItem('delco_visitas')) || [];
             if (visitas_db.length === 0) {
-                mostrarVacio(tbody);
+                mostrarVacio(tbody, 6);
                 return;
             }
 
@@ -304,15 +446,13 @@
             const startOfDay = new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()).getTime();
             const endOfDay = startOfDay + 24 * 60 * 60 * 1000;
 
-            // Filtrar visitas correspondientes al día actual
             const visitasRecientes = visitas_db.filter(v => {
-                // Si la visita tiene programada una fecha específica (nuevo formato)
+                if (v.entró) return false; // Ocultar si ya ingresó
+
                 if (v.fecha_programada) {
-                    v.computed_ts = v.timestamp || new Date().getTime(); // Mantenemos el timestamp para ordenar
+                    v.computed_ts = v.timestamp || new Date().getTime();
                     return v.fecha_programada === hoyStr;
                 }
-
-                // Lógica de respaldo para los registros creados antes de tener el campo "fecha_programada"
                 let ts = v.timestamp;
                 if (!ts && v.hora) {
                     const fallBackDate = new Date();
@@ -322,7 +462,6 @@
                         ts = fallBackDate.getTime();
                     }
                 }
-
                 if (ts) {
                     v.computed_ts = ts;
                     return ts >= startOfDay && ts < endOfDay;
@@ -331,17 +470,14 @@
             });
 
             if (visitasRecientes.length === 0) {
-                mostrarVacio(tbody);
+                mostrarVacio(tbody, 6);
                 return;
             }
 
-            // Ordenar de más reciente a más antigua
             visitasRecientes.sort((a, b) => b.computed_ts - a.computed_ts);
 
             visitasRecientes.forEach(visita => {
                 const tr = document.createElement('tr');
-
-                // Mostrar "NUEVO" si tiene menos de 15 minutos en el panel por ser del dia completo
                 const esMuyReciente = (Date.now() - visita.computed_ts) < (15 * 60 * 1000);
                 const badgeExtra = esMuyReciente ? '<span class="badge-recent">¡NUEVO!</span>' : '';
 
@@ -358,38 +494,177 @@
                     <td style="letter-spacing: 1px; color: var(--text-muted); font-weight: 600;">${visita.placa}</td>
                     <td>${visita.cantidad}</td>
                     <td style="color: #a1a1aa; font-weight: 500;">${visita.autoriza}</td>
+                    <td>
+                        <button onclick='confirmarIngresoManual(${JSON.stringify(visita)})' class="btn" style="background-color: var(--success-color); color: white; padding: 6px 12px; font-size: 0.8rem; border-radius: 6px;">
+                            📥 INGRESAR
+                        </button>
+                    </td>
                 `;
                 tbody.appendChild(tr);
             });
         }
 
-        function mostrarVacio(tbody) {
+        function confirmarIngresoManual(visita) {
+            if (!confirm(`¿Confirmar ingreso manual de ${visita.nombre}?`)) return;
+
+            const visitas_db = JSON.parse(localStorage.getItem('delco_visitas')) || [];
+            const idx = visitas_db.findIndex(v => v.id === visita.id && v.nombre === visita.nombre);
+
+            if (idx !== -1) {
+                visitas_db[idx].entró = true;
+                localStorage.setItem('delco_visitas', JSON.stringify(visitas_db));
+            }
+
+            const historial = JSON.parse(localStorage.getItem('delco_historial_escaneos')) || [];
+            const ahora = new Date();
+            const hora = ahora.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' });
+
+            const nuevoIngreso = {
+                hora: hora,
+                ts: ahora.getTime(),
+                nombre: visita.nombre,
+                tipo: 'visitante',
+                identificacion: visita.placa || visita.identificacion || 'MANUAL',
+                lote: visita.lote || visita.autoriza.split(' ')[1] || '-',
+                autoriza: visita.autoriza,
+                status: 1
+            };
+
+            historial.unshift(nuevoIngreso);
+            if (historial.length > 100) historial.pop();
+            localStorage.setItem('delco_historial_escaneos', JSON.stringify(historial));
+
+            alert(`✅ Ingreso registrado: ${visita.nombre}`);
+            cambiarVista('bitacora');
+        }
+
+        function cargarBitacoraGeneral() {
+            const tbody = document.getElementById('tablaBody');
+            tbody.innerHTML = '';
+
+            const logItems = JSON.parse(localStorage.getItem('delco_historial_escaneos')) || [];
+
+            if (logItems.length === 0) {
+                mostrarVacio(tbody, 6);
+                return;
+            }
+
+            logItems.forEach(item => {
+                const tr = document.createElement('tr');
+                const colorNombre = item.tipo === 'residente' ? '#60a5fa' : '#fbbf24';
+                const badgeTipo = item.tipo === 'residente' ? '<span class="badge-residente">RESIDENTE</span>' : '<span class="badge-visitante">VISITANTE</span>';
+
+                // Limpiar el detalle si es residente para mostrar el texto deseado
+                const detalleFinal = item.tipo === 'residente' ? '<span style="color: #60a5fa; font-weight: 600;">ESCÁNER (PROPIO)</span>' : item.autoriza;
+
+                tr.innerHTML = `
+                    <td style="color: var(--text-muted); font-weight: 700;">${item.hora}</td>
+                    <td><strong style="color: ${colorNombre}; font-size: 1.1rem;">${item.nombre}</strong></td>
+                    <td>${badgeTipo}</td>
+                    <td style="color: white; font-weight: 600; letter-spacing: 1px;">${item.identificacion}</td>
+                    <td style="color: #a1a1aa;">${item.lote}</td>
+                    <td style="font-size: 0.9rem; color: var(--text-muted);">${detalleFinal}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function mostrarVacio(tbody, cols) {
             tbody.innerHTML = `
-                <tr>
-                    <td colspan="6">
-                        <div class="empty-state">
-                            <div class="empty-icon">🛡️</div>
-                            <h3>No hay visitas para el día de hoy</h3>
-                            <p>Las autorizaciones aparecerán aquí tan pronto como sean registradas.</p>
-                        </div>
-                    </td>
-                </tr>
+                <tr><td colspan="${cols}"><div class="empty-state"><div class="empty-icon">🛡️</div><h3>No hay registros</h3><p>La actividad aparecerá aquí tan pronto como se registre.</p></div></td></tr>
             `;
         }
 
-        // Cargar configuración de condominio
-        const config_db = JSON.parse(localStorage.getItem('delco_config')) || { nombre: 'DELCO II' };
+        // --- SISTEMA DE ESCANEO LIVE ---
+        function mostrarMarbeteModal(data) {
+            const modal = document.getElementById('modalMarbete');
+            const container = document.getElementById('marbeteContainer');
+            const vecino = data.vecino;
+            const alDia = vecino.status === 1;
+            const estadoColor = alDia ? '#10b981' : '#ef4444';
+            const estadoTexto = alDia ? 'PAGOS AL DÍA' : 'PAGOS PENDIENTES';
+            const qrUrl = "https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=" + encodeURIComponent(vecino.codigo || data.placa);
+
+            const ahora = new Date();
+            const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+            const fechaGenerado = `${ahora.getDate()} de ${meses[ahora.getMonth()]} de ${ahora.getFullYear()} a las ${ahora.getHours().toString().padStart(2, '0')}:${ahora.getMinutes().toString().padStart(2, '0')}`;
+
+            container.innerHTML = `
+                <div style="background: #1c1c1c; border-radius: 12px; overflow: hidden; box-shadow: 0 15px 35px rgba(0,0,0,0.5); text-align: center; color: white; display: flex; flex-direction: column; font-family: 'Outfit', sans-serif;">
+                    <div style="background: linear-gradient(135deg, #60a5fa, #3b82f6); padding: 1.5rem; text-align: center;">
+                        <div style="font-size: 1.3rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">${config_db.nombre}</div>
+                        <div style="font-size: 0.9rem; font-weight: 600; margin-top: 4px;">Pase de Acceso</div>
+                    </div>
+                    <div style="padding: 2rem 1.5rem; align-items: center; display: flex; flex-direction: column;">
+                        <div style="margin-bottom: 1.2rem;">
+                            <div style="font-size: 0.7rem; color: #9ca3af; letter-spacing: 1.5px; text-transform: uppercase;">RESIDENTE</div>
+                            <div style="font-size: 1.2rem; font-weight: 800; text-transform: uppercase;">${vecino.nombre}</div>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-size: 0.7rem; color: #9ca3af; letter-spacing: 1.5px; text-transform: uppercase;">LOTE</div>
+                            <div style="font-size: 1.2rem; font-weight: 800;">LOTE ${vecino.lote}</div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; padding: 0.5rem 1rem; margin-bottom: 1.5rem; width: 100%;">
+                            <div style="font-size: 0.6rem; color: #9ca3af; letter-spacing: 1px;">GENERADO EL</div>
+                            <div style="font-size: 0.75rem;">${fechaGenerado}</div>
+                        </div>
+                        <div style="background: white; padding: 0.7rem; border-radius: 8px; margin-bottom: 1rem; display: inline-block;">
+                            <img src="${qrUrl}" style="width: 140px; height: 140px; display: block; filter: contrast(1.1);">
+                        </div>
+                    </div>
+                    <div style="background: ${estadoColor}; padding: 1rem; text-align: center;">
+                        <div style="font-size: 1.1rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;">${estadoTexto}</div>
+                    </div>
+                </div>
+            `;
+            modal.style.display = 'flex';
+        }
+
+        function cerrarModalMarbete() {
+            document.getElementById('modalMarbete').style.display = 'none';
+        }
+
+        // Listener para escaneos realizados en otra pestaña/pestaña del escáner
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'SISDEL_ULTIMO_ESCANEO' && e.newValue) {
+                const data = JSON.parse(e.newValue);
+                // Si el escaneo es de hace menos de 5 segundos
+                if (Date.now() - data.timestamp < 5000) {
+                    mostrarMarbeteModal(data);
+                }
+            }
+        });
+
+        // Configuración y ejecución inicial
+        const config_db = JSON.parse(localStorage.getItem('delco_config')) || { nombre: 'MI CONDOMINIO', activo: true };
+
+        if (config_db.activo === false) {
+            document.body.innerHTML = `
+                <div style="height: 100vh; display: flex; align-items: center; justify-content: center; background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%); color: white; font-family: 'Outfit', sans-serif; text-align: center; padding: 20px;">
+                    <div style="background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 2.5rem; padding: 4rem 2rem; max-width: 500px; width: 100%; box-shadow: 0 50px 100px -20px rgba(0, 0, 0, 0.8);">
+                        <div style="width: 80px; height: 80px; background: rgba(239, 68, 68, 0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 2rem auto; border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; font-size: 2.5rem; box-shadow: 0 0 30px rgba(239, 68, 68, 0.2);">🛑</div>
+                        <h1 style="font-size: 2.2rem; font-weight: 800; margin-bottom: 1.5rem; color: #f8fafc; letter-spacing: -0.025em; line-height: 1.1;">ACCESO <span style="color: #ef4444;">SUSPENDIDO</span></h1>
+                        <p style="font-size: 1.1rem; color: #94a3b8; line-height: 1.7; margin-bottom: 2.5rem; font-weight: 300;">
+                            El sistema de control para <strong>${config_db.nombre.toUpperCase()}</strong> ha sido desactivado administrativamente.
+                            <br><br>
+                            Favor comunicarse con la administración o con <strong>GaritaApp Support</strong> para coordinar la reactivación del servicio.
+                        </p>
+                        <button onclick="window.location.href='index.html'" style="width: 100%; background: #3b82f6; color: white; border: none; padding: 1.25rem; border-radius: 1.25rem; font-weight: 700; font-size: 1.1rem; cursor: pointer; transition: all 0.3s; box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.5); font-family: 'Outfit', sans-serif;">
+                            Regresar a Inicio
+                        </button>
+                    </div>
+                </div>
+            `;
+            throw new Error("Sistema Desactivado");
+        }
+
         document.getElementById('headerCondoName').innerText = config_db.nombre.toUpperCase();
         document.title = `Acceso Garita - ${config_db.nombre}`;
 
-        // Inicializar reloj y tabla
         setInterval(actualizarReloj, 1000);
         actualizarReloj();
-
-        // Actualizar lista de visitas cada 10 segundos
-        setInterval(cargarVisitasRecientes, 10000);
-        cargarVisitasRecientes();
-
+        setInterval(actualizarTabla, 10000);
+        actualizarTabla();
     </script>
 </body>
 

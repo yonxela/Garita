@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Escáner QR - DELCO II</title>
+    <title>GaritaApp - Escáner QR</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -14,14 +14,16 @@
 
     <style>
         :root {
-            --primary-color: #3b82f6;
+            --primary-color: #ffffff;
+            --primary-accent: #6366f1;
+            --bg-deep: #1e1b4b;
+            --bg-accent: #2e1065;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
             --success-color: #10b981;
             --danger-color: #ef4444;
-            --bg-color: #121212;
-            --panel-bg: #1e1e1e;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border-color: #333333;
         }
 
         * {
@@ -32,7 +34,12 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-deep);
+            background-image: repeating-linear-gradient(-45deg,
+                    #1e1b4b,
+                    #1e1b4b 60px,
+                    #25225d 60px,
+                    #25225d 120px);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -43,13 +50,15 @@
         }
 
         .scanner-card {
-            background-color: var(--panel-bg);
-            border-radius: 1rem;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 2rem;
             width: 100%;
             max-width: 500px;
             overflow: hidden;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-            border: 1px solid var(--border-color);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
             text-align: center;
         }
 
@@ -181,8 +190,10 @@
 <body>
 
     <div class="scanner-card">
-        <div class="header-strip">
-            <h1 class="header-title">Escanear Marbete</h1>
+        <div class="header-strip"
+            style="background: rgba(255,255,255,0.05); border-bottom: 1px solid var(--glass-border); padding: 2rem;">
+            <h1 class="header-title">GaritaApp</h1>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 5px;">Escáner de Marbetes</p>
         </div>
 
         <div class="content">
@@ -313,7 +324,7 @@
                 }
             } else {
                 resNombre.innerText = "Código Inválido";
-                resLote.innerText = "No registrado en DELCO II";
+                resLote.innerText = "No registrado en el sistema";
                 resStatus.className = 'status-strip status-moroso';
                 resStatus.innerText = 'ACCESO DENEGADO';
                 resQr.style.display = 'none';

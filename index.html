@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marbete Digital - DELCO II</title>
+    <title>GaritaApp - Control de Visitas</title>
     <!-- Integración de Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,20 +13,14 @@
     <!-- CSS Nativo con diseño Premium (Glassmorphism, Dark Mode) -->
     <style>
         :root {
-            --primary-color: #3b82f6;
-            /* Blue 500 */
-            --primary-hover: #2563eb;
-            /* Blue 600 */
-            --bg-gradient-start: #0f172a;
-            /* Slate 900 */
-            --bg-gradient-end: #1e293b;
-            /* Slate 800 */
-            --text-main: #f8fafc;
-            /* Slate 50 */
-            --text-muted: #94a3b8;
-            /* Slate 400 */
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --primary-color: #ffffff;
+            --primary-accent: #6366f1;
+            --bg-deep: #1e1b4b;
+            --bg-accent: #2e1065;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.1);
         }
 
         * {
@@ -37,7 +31,14 @@
 
         body {
             font-family: 'Outfit', sans-serif;
-            background: linear-gradient(135deg, var(--bg-gradient-start) 0%, var(--bg-gradient-end) 100%);
+            background-color: var(--bg-deep);
+            background-image: repeating-linear-gradient(
+                -45deg,
+                #1e1b4b,
+                #1e1b4b 60px,
+                #25225d 60px,
+                #25225d 120px
+            );
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
@@ -54,87 +55,78 @@
 
         .glass-panel {
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 1.5rem;
-            padding: 2.5rem 2rem;
+            border-radius: 3rem;
+            padding: 4rem 2.5rem;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: slideUpFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
             opacity: 0;
             transform: translateY(20px);
-        }
-
-        .header {
             text-align: center;
-            margin-bottom: 2rem;
         }
 
-        .logo-circle {
-            position: relative;
-            width: 80px;
-            height: 80px;
-            margin: 0 auto 1.5rem auto;
-            background: linear-gradient(135deg, var(--primary-color), #60a5fa);
-            border-radius: 50%;
+        .logo-box {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 2.5rem auto;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2.5rem;
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.5);
+            position: relative;
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.2);
+        }
+
+        .logo-box::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 2.5rem;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            pointer-events: none;
         }
 
         .logo-icon {
-            width: 40px;
-            height: 40px;
+            width: 60px;
+            height: 60px;
             color: white;
         }
 
         .title {
-            font-size: 2rem;
+            font-size: 3rem;
             font-weight: 700;
-            letter-spacing: -0.025em;
-            margin-bottom: 0.5rem;
-            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(to bottom, #fff, #ddd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .subtitle {
-            font-size: 1rem;
+            font-size: 1.15rem;
             color: var(--text-muted);
-            font-weight: 300;
+            font-weight: 400;
+            margin-bottom: 3.5rem;
         }
 
         .action-buttons {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-        }
-
-        .input-lote {
-            width: 100%;
-            padding: 1rem;
-            border-radius: 0.75rem;
-            border: 1px solid var(--glass-border);
-            background: rgba(255, 255, 255, 0.05);
-            color: white;
-            font-size: 1.1rem;
-            font-family: inherit;
-            outline: none;
-            text-align: center;
-            transition: border-color 0.2s;
-        }
-
-        .input-lote:focus {
-            border-color: var(--primary-color);
+            gap: 1.5rem;
         }
 
         .btn {
             display: block;
             width: 100%;
-            padding: 1rem 1.5rem;
-            border-radius: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 2rem;
             font-family: inherit;
-            font-size: 1.1rem;
-            font-weight: 600;
+            font-size: 1.2rem;
+            font-weight: 700;
             text-align: center;
             text-decoration: none;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -144,60 +136,109 @@
         }
 
         .btn-primary {
-            background-color: var(--primary-color);
-            color: white;
-            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3), 0 2px 4px -2px rgba(59, 130, 246, 0.3);
+            background-color: white;
+            color: #1e1b4b;
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
         }
 
         .btn-primary:hover {
-            background-color: var(--primary-hover);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4), 0 4px 6px -4px rgba(59, 130, 246, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(0, 0, 0, 0.4);
+            background-color: #f8fafc;
         }
 
-        .btn-secondary {
-            background-color: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
-            border: 1px solid var(--glass-border);
-        }
-
-        .btn-secondary:hover {
-            background-color: rgba(255, 255, 255, 0.1);
-            transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2);
-        }
-
-        .footer {
-            margin-top: 2.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--glass-border);
-            text-align: center;
-        }
-
-        .footer-link {
-            color: var(--primary-color);
-            text-decoration: none;
-            font-size: 0.9rem;
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: 600;
-        }
-
-        .footer-text {
-            font-size: 0.8rem;
+        .footer-info {
+            margin-top: 3rem;
             color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .footer-address {
+            margin-top: 1rem;
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
         }
 
         @keyframes slideUpFade {
             0% {
                 opacity: 0;
-                transform: translateY(30px) scale(0.95);
+                transform: translateY(40px);
             }
-
             100% {
                 opacity: 1;
-                transform: translateY(0) scale(1);
+                transform: translateY(0);
             }
+        }
+
+        /* Input section (original functionality) */
+        #loginSection, #neighborMenu {
+            display: none;
+        }
+
+        .active {
+            display: block !important;
+        }
+
+        .input-lote {
+            width: 100%;
+            padding: 1.25rem;
+            border-radius: 1.5rem;
+            border: 1px solid var(--glass-border);
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1.1rem;
+            font-family: inherit;
+            outline: none;
+            text-align: center;
+            margin-bottom: 2rem;
+            transition: border-color 0.2s;
+        }
+
+        .input-lote:focus {
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Modal Premium */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 20px;
+        }
+
+        .modal-card {
+            background: var(--bg-deep);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            padding: 2.5rem;
+            max-width: 440px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 40px 80px -15px rgba(0, 0, 0, 0.7);
+        }
+
+        .modal-btn-confirm {
+            background: white;
+            color: #1e1b4b;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 1rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
         }
     </style>
 </head>
@@ -205,148 +246,125 @@
 <body>
 
     <div class="container">
-        <div class="glass-panel">
-            <div id="loginSection">
-                <div class="header">
-                    <div class="logo-circle">
-                        <!-- Glow effect around icon -->
-                        <div
-                            style="position: absolute; width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 30px var(--primary-color); opacity: 0.6; pointer-events: none;">
-                        </div>
-                        <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg" style="position: relative; z-index: 1;">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                            </path>
-                        </svg>
-                    </div>
-                    <h1 class="title" id="condoTitle">CONDOMINIO X</h1>
-                    <p class="subtitle">Control de Acceso y Marbetes Digitales</p>
-                </div>
+        <!-- Main Landing State Case -->
+        <div class="glass-panel" id="landingSection">
+            <div class="logo-box">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                    </path>
+                </svg>
+            </div>
+            
+            <h1 class="title">GaritaApp</h1>
+            <p class="subtitle">Bienvenido a tu control de visitas</p>
 
-                <div class="action-buttons">
-                    <form id="entryForm" onsubmit="validarAcceso(event)">
-                        <input type="text" id="codigoInput" class="input-lote" placeholder="CÓDIGO DE ACCESO"
-                            style="text-transform: uppercase; font-weight: 700; letter-spacing: 2px; margin-bottom: 1.5rem;"
-                            required />
-
-                        <button type="submit" class="btn btn-primary">
-                            Ingresar
-                        </button>
-                    </form>
-                </div>
+            <div class="action-buttons">
+                <button onclick="showLogin()" class="btn btn-primary">Ingresar Visita</button>
             </div>
 
-            <!-- Panel de Opciones para el Vecino (Se muestra tras validar) -->
-            <div id="neighborMenu" style="display: none;">
-                <div class="header">
-                    <div class="logo-circle">
-                        <div
-                            style="position: absolute; width: 100%; height: 100%; border-radius: 50%; box-shadow: 0 0 30px var(--primary-color); opacity: 0.6; pointer-events: none;">
-                        </div>
-                        <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg" style="position: relative; z-index: 1;">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
-                            </path>
-                        </svg>
-                    </div>
-                    <h1 class="title" id="condoTitleMenu">CONDOMINIO X</h1>
-                    <p class="subtitle">Control de Acceso y Marbetes Digitales</p>
-                </div>
+            <div class="footer-info">
+                <p>Seguro, rápido y confiable</p>
+                <div class="footer-address">1200 BRICKELL AVE, MIAMI, FL</div>
+            </div>
+        </div>
 
-                <div id="saludoVecino"
-                    style="font-size: 1.3rem; font-weight: 700; text-align: center; margin-bottom: 2rem; color: var(--primary-color); letter-spacing: 0.5px;">
-                </div>
+        <!-- original login functionality wrapped in new design -->
+        <div class="glass-panel" id="loginSection">
+            <div class="logo-box">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z">
+                    </path>
+                </svg>
+            </div>
+            <h1 class="title" style="font-size: 2rem;">Acceso</h1>
+            <p class="subtitle" id="condoTitle">Condominio</p>
 
-                <div class="action-buttons">
-                    <button onclick="irAMarbete()" class="btn btn-primary">
-                        Generar Marbete (QR)
+            <div class="action-buttons">
+                <form id="entryForm" onsubmit="validarAcceso(event)">
+                    <input type="text" id="codigoInput" class="input-lote" placeholder="CÓDIGO DE ACCESO"
+                        style="text-transform: uppercase; font-weight: 700; letter-spacing: 2px;" required />
+
+                    <button type="submit" class="btn btn-primary">
+                        Validar
                     </button>
+                </form>
+                <button onclick="showLanding()" class="btn" style="background: none; color: var(--text-muted); font-size: 0.9rem;">← Volver</button>
+            </div>
+        </div>
 
-                    <button onclick="irAVisitas()" class="btn btn-secondary"
-                        style="background-color: rgba(255,255,255,0.08); color: white;">
-                        Escanear / Ver Visitas
-                    </button>
-
-                    <button onclick="cerrarSesionVecino()" class="btn"
-                        style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted); background: none;">
-                        ← Salir / Cambiar Código
-                    </button>
-                </div>
+        <!-- Menu neighbor wrapped in new design -->
+        <div class="glass-panel" id="neighborMenu">
+            <div class="logo-box">
+                <svg class="logo-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z">
+                    </path>
+                </svg>
+            </div>
+            <div id="saludoVecino"
+                style="font-size: 1.5rem; font-weight: 700; text-align: center; margin-bottom: 2rem; color: white;">
             </div>
 
-            <div class="footer">
-                <a href="login.html" class="footer-link">Acceso a Directiva / Panel Principal</a>
-                <p class="footer-text" id="footerText">&copy; 2026 Gestión de Accesos</p>
+            <div class="action-buttons">
+                <button onclick="irAMarbete()" class="btn btn-primary">
+                    Generar Marbete (QR)
+                </button>
+
+                <button onclick="irAVisitas()" class="btn" style="background: rgba(255,255,255,0.1); color: white;">
+                    Escanear / Ver Visitas
+                </button>
+
+                <button onclick="cerrarSesionVecino()" class="btn"
+                    style="margin-top: 1rem; font-size: 0.9rem; color: var(--text-muted); background: none;">
+                    ← Salir
+                </button>
             </div>
         </div>
     </div>
 
+    <!-- Modal Personalizado -->
+    <div id="sisdelModal" class="modal-overlay">
+        <div class="modal-card">
+            <div id="modalIcon" style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
+            <h2 id="modalTitle" style="margin-bottom: 1rem;">Aviso</h2>
+            <div id="modalMessage" style="color: var(--text-muted); margin-bottom: 2rem;">Contenido...</div>
+            <button class="modal-btn-confirm" onclick="cerrarSisdelModal()">Entendido</button>
+        </div>
+    </div>
+
     <script>
-        // Cargar configuración inicial
-        const config_db = JSON.parse(localStorage.getItem('delco_config')) || { nombre: 'DELCO II' };
-        const sistemaConfigurado = config_db.setup_complete === true;
-
-        document.title = `Acceso - ${config_db.nombre}`;
-        const titulos = [document.getElementById('condoTitle'), document.getElementById('condoTitleMenu')];
-        titulos.forEach(t => { if (t) t.innerText = config_db.nombre.toUpperCase(); });
-        document.getElementById('footerText').innerHTML = `&copy; 2026 Gestión de Accesos - ${config_db.nombre}`;
-
-        // Si hay un logo configurado
-        if (config_db.logo) {
-            document.querySelectorAll('.logo-circle').forEach(div => {
-                div.innerHTML = `<img src="${config_db.logo}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; box-shadow: 0 0 15px rgba(59,130,246,0.5);">`;
-            });
+        // Funciones de navegación interna
+        function showLogin() {
+            document.getElementById('landingSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
         }
 
-        let codigoValidado = "";
+        function showLanding() {
+            document.getElementById('landingSection').style.display = 'block';
+            document.getElementById('loginSection').style.display = 'none';
+        }
 
-        // --- SISTEMA DE LICENCIAS MAESTRAS ---
-        const LICENCIAS_MAESTRAS = {
-            "7777": "CONDOMINIO X",
-            "1234": "CONDOMINIO EL CIELO",
-            "5555": "RESIDENCIAL ESMERALDA",
-            "8888": "CONDOMINIO EL VALLE"
-        };
-        // -------------------------------------
+        // Cargar configuración inicial
+        const config_db = JSON.parse(localStorage.getItem('delco_config')) || { nombre: 'MI CONDOMINIO', activo: true };
+        const nombreCondo = config_db.nombre || 'MI CONDOMINIO';
+        if (config_db.activo === undefined) config_db.activo = true;
+
+        document.title = `GaritaApp - ${nombreCondo}`;
+        const condoTitle = document.getElementById('condoTitle');
+        if (condoTitle) condoTitle.innerText = nombreCondo;
+
+        let codigoValidado = "";
 
         function validarAcceso(e) {
             if (e) e.preventDefault();
             const codigo = document.getElementById('codigoInput').value.trim().toUpperCase();
 
-            // --- LÓGICA DE LICENCIA POR NÚMERO ---
-            if (LICENCIAS_MAESTRAS[codigo]) {
-                if (sistemaConfigurado) {
-                    alert("❌ Esta licencia ya no es válida para reactivación.");
-                    return;
-                }
-                const nuevoNombre = LICENCIAS_MAESTRAS[codigo];
-                if (confirm(`🔑 LICENCIA VÁLIDA: ${codigo}\n\nSe actualizará el Condominio a: "${nuevoNombre}"\n✅ LOS VECINOS Y REGISTROS SE MANTENDRÁN.\n\n¿Desea continuar?`)) {
-
-                    // Actualizamos solo la configuración
-                    const config = JSON.parse(localStorage.getItem('delco_config')) || {};
-                    config.nombre = nuevoNombre;
-                    config.nombreMarbete = nuevoNombre;
-                    config.setup_complete = true;
-                    localStorage.setItem('delco_config', JSON.stringify(config));
-
-                    // Aseguramos usuarios maestros
-                    let usuarios = JSON.parse(localStorage.getItem('delco_usuarios')) || [];
-                    if (!usuarios.find(u => u.username === 'DIRECTIVA')) {
-                        usuarios.push({ username: 'DIRECTIVA', password_hash: 'M2026', rol_id: 1, nombre: 'ADMINISTRADOR' });
-                    }
-                    localStorage.setItem('delco_usuarios', JSON.stringify(usuarios));
-
-                    alert(`✅ SISTEMA ACTIVADO EXITOSAMENTE\n\nCondominio: ${nuevoNombre}`);
-                    localStorage.setItem('admin_logged_in', 'true');
-                    window.location.href = 'modulos_ocultos/admin.html';
-                    return;
-                }
-            }
-
-            if (!codigo) {
-                alert("Por favor, ingrese un código de acceso válido.");
+            if (codigo === "SISDEL 2026" || codigo === "SISDEL2026") {
+                localStorage.setItem('admin_logged_in', 'true');
+                localStorage.setItem('is_sisdel', 'true');
+                window.location.href = 'modulos_ocultos/admin.html';
                 return;
             }
 
@@ -358,20 +376,28 @@
             const usuario = usuarios_db.find(u => u.username.toUpperCase() === codigo);
 
             if (usuario) {
+                if (config_db.activo === false) {
+                    mostrarSisdelModal(
+                        "⚠️ SERVICIO SUSPENDIDO",
+                        "El acceso a este condominio ha sido desactivado administrativamente."
+                    );
+                    return;
+                }
+
                 if (usuario.rol_id === 1) {
                     localStorage.setItem('admin_logged_in', 'true');
                     window.location.href = 'modulos_ocultos/admin.html';
                 } else if (usuario.rol_id === 3) {
                     window.location.href = 'garita.html';
                 } else {
-                    // Es VECINO: Mostrar Menú
                     codigoValidado = codigo;
+                    document.getElementById('landingSection').style.display = 'none';
                     document.getElementById('loginSection').style.display = 'none';
                     document.getElementById('neighborMenu').style.display = 'block';
-                    document.getElementById('saludoVecino').innerText = `¡Bienvenido, ${usuario.nombre.split(' ')[0]}!`;
+                    document.getElementById('saludoVecino').innerText = `¡Hola, ${usuario.nombre.split(' ')[0]}!`;
                 }
             } else {
-                alert("Código no reconocido. Por favor verifique sus datos.");
+                alert("Código no reconocido.");
             }
         }
 
@@ -386,8 +412,22 @@
         function cerrarSesionVecino() {
             location.reload();
         }
-    </script>
 
+        function mostrarSisdelModal(titulo, mensaje, icono = "⚠️") {
+            document.getElementById('modalTitle').innerText = titulo;
+            document.getElementById('modalMessage').innerHTML = mensaje;
+            document.getElementById('modalIcon').innerText = icono;
+            document.getElementById('sisdelModal').style.display = 'flex';
+        }
+
+        function cerrarSisdelModal() {
+            document.getElementById('sisdelModal').style.display = 'none';
+        }
+
+        function alert(msg) {
+            mostrarSisdelModal("Aviso", msg);
+        }
+    </script>
 </body>
 
 </html>
